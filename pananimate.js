@@ -28,7 +28,7 @@ Version: 1.0
 					}
 				}
 
-				if(imageSize.isLandscape()){}
+				if(imageSize.isLandscape()){
 					if(image.height() > frame.height()){
 						image.height(frame.height());
 					}

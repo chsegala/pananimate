@@ -8,7 +8,7 @@
 				overflow: hidden;
 			}
 		</style>
-		<script src="" type="text/javascript"></script>
+		<script type="text/javascript" src="pananimate.js"></script>
 	</head>
 	<body>
 		<a class="image-changer" href="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG">Birds</a>
@@ -24,8 +24,8 @@
 					e.preventDefault();
 					$('.photo-frame').html('').append('<img src="'+$(this).attr('href')+'">');
 					$('.photo-frame img').pananimate({
-						delay: 0,
-						animationSpeed: 100
+						delay: 500,
+						animationSpeed: 1000
 					});
 				});
 				$('.photo-frame img').pananimate();
