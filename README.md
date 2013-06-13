@@ -17,6 +17,8 @@ The available options are
 
     {
         delay: 3000, //delay before animation
-        animationSpeed: 1500
+        animationSpeed: 1500,
+        animationType: 'loop', //'single' and 'gotoAndStop' also available
+        direction: 'forward' //anything other than 'forward' is 'backward'
     }
     
