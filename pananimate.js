@@ -11,10 +11,74 @@ Version: 1.0
 		pananimate: function(options){
 			var defaults = {
 				delay: 3000,
-				animationSpeed: 1500
+				animationSpeed: 1500,
+				animationType: 'loop',
+				direction: 'forward'
 			};
 
 			var options = $.extend(defaults, options);
+			var animation = null;
+
+			var getAnimationFunction = function(animationType){
+				switch(animationType){
+					case 'loop':
+						return loopAnimation;
+					case 'single':
+						return singleAnimation;
+					case 'gotoAndStop':
+						return gotoAndStopAnimation;
+				}
+				return loopAnimation //default case
+			};
+
+			var loopAnimation = function(image, options, positions){
+				$(image).delay(options.delay).animate({
+					'margin-left': positions.startX,
+					'margin-top': positions.startY
+				}, options.animationSpeed)
+				.delay(options.delay).animate({
+					'margin-left': positions.endX,
+					'margin-top': positions.endY
+				}, options.animationSpeed, 
+				    function(){ loopAnimation(image, options, positions); }
+				);
+			};
+
+			var singleAnimation = function(image, options, positions){
+				$(image).click(function(){
+					$(image)
+					.animate({
+						'margin-left': positions.startX,
+						'margin-top': positions.startY
+					}, options.animationSpeed)
+					.delay(options.delay)
+					.animate({
+						'margin-left': positions.endX,
+						'margin-top': positions.endY
+					}, options.animationSpeed);
+				});
+				$(image).delay(options.delay).click();
+			};
+
+			var gotoAndStopAnimation = function(image, options, positions){
+				var go = true;
+				$(image).click(function(){
+					if(go){
+						go = !go;
+						$(image).animate({
+								'margin-left': positions.startX,
+								'margin-top': positions.startY
+							}, options.animationSpeed);
+					}else{
+						go = !go;
+						$(image).animate({
+							'margin-left': positions.endX,
+							'margin-top': positions.endY
+						}, options.animationSpeed);
+					}
+				});
+				$(image).delay(options.delay).click();
+			};
 
 			var frame = $(this).parent();
 			$(this).load(function(){
@@ -41,16 +105,20 @@ Version: 1.0
 				var deltaX =  imageSize.isLandscape() && frame.width()  < image.width()  ? Math.abs(frame.width()  - image.width() ) : 0;
 				var deltaY = !imageSize.isLandscape() && frame.height() < image.height() ? Math.abs(frame.height() - image.height()) : 0;
 
-				var animation = function(){
-					$(image).delay(options.delay).animate({
-						'margin-left': -deltaX,
-						'margin-top': -deltaY
-					}, options.animationSpeed).delay(options.delay).animate({
-						'margin-left': 0,
-						'margin-top': 0
-					}, options.animationSpeed, animation);
+				var positions = {
+					endX: options.direction === 'forward' ? 0 : -deltaX,
+					endY: options.direction === 'forward' ? 0 : -deltaY,
+					startX: options.direction === 'forward' ? -deltaX : 0,
+					startY: options.direction === 'forward' ? -deltaY : 0
 				};
-				animation();
+
+				if(options.direction !== 'forward'){
+					console.log('backward');
+					$(image).css('margin-top', -deltaY + 'px').css('margin-left', -deltaX + 'px');
+				}
+
+				animation = getAnimationFunction(options.animationType);
+				animation(image, options, positions);
 			});
 		}
 	});

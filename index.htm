@@ -11,24 +11,83 @@
 		<script type="text/javascript" src="pananimate.js"></script>
 	</head>
 	<body>
-		<a class="image-changer" href="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG">Birds</a>
-		<a class="image-changer" href="http://z.about.com/d/cameras/1/0/u/1/bigcat.JPG">Tiger</a>
-		<a class="image-changer" href="http://www.outerspaceuniverse.org/media/Boomerang-Nebula-HST.jpg">Universe</a>
-		<div class="photo-frame">
-			<img src="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG" />
+		<div>
+			<h3>Loop Animation</h3>
+			<a class="image-changer loop" href="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG">Birds</a>
+			<a class="image-changer loop" href="http://z.about.com/d/cameras/1/0/u/1/bigcat.JPG">Tiger</a>
+			<a class="image-changer loop" href="http://www.outerspaceuniverse.org/media/Boomerang-Nebula-HST.jpg">Universe</a>
+			<div class="photo-frame loop">
+				<img src="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG" />
+			</div>
+		</div>
+		<div>
+			<h3>Single</h3>
+			<a class="image-changer single" href="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG">Birds</a>
+			<a class="image-changer single" href="http://z.about.com/d/cameras/1/0/u/1/bigcat.JPG">Tiger</a>
+			<a class="image-changer single" href="http://www.outerspaceuniverse.org/media/Boomerang-Nebula-HST.jpg">Universe</a>
+			<div class="photo-frame single">
+				<img src="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG" />
+			</div>
+		</div>
+		<div>
+			<h3>Goto and stop</h3>
+			<a class="image-changer gotoAndStop" href="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG">Birds</a>
+			<a class="image-changer gotoAndStop" href="http://z.about.com/d/cameras/1/0/u/1/bigcat.JPG">Tiger</a>
+			<a class="image-changer gotoAndStop" href="http://www.outerspaceuniverse.org/media/Boomerang-Nebula-HST.jpg">Universe</a>
+			<div class="photo-frame gotoAndStop">
+				<img src="http://ibc.lynxeds.com/files/imagecache/photo_940/pictures/Northern_Flicker_-VA_1.JPG" />
+			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
 			$(document).ready(function(){
-				$(document).on('click', '.image-changer', function(e){
+				//loop animation
+				$(document).on('click', '.image-changer.loop', function(e){
 					e.preventDefault();
-					$('.photo-frame').html('').append('<img src="'+$(this).attr('href')+'">');
-					$('.photo-frame img').pananimate({
+					$('.photo-frame.loop').html('').append('<img src="'+$(this).attr('href')+'">');
+					$('.photo-frame.loop img').pananimate({
 						delay: 500,
 						animationSpeed: 1000
 					});
 				});
-				$('.photo-frame img').pananimate();
+				$('.photo-frame.loop img').pananimate({
+						delay: 500,
+						animationSpeed: 1000
+				});
+
+				//single animation
+				$(document).on('click', '.image-changer.single', function(e){
+					e.preventDefault();
+					$('.photo-frame.single').html('').append('<img src="'+$(this).attr('href')+'">');
+					$('.photo-frame.single img').pananimate({
+						delay: 500,
+						animationSpeed: 1000,
+						animationType: 'single'
+					});
+				});
+				$('.photo-frame.single img').pananimate({
+						delay: 500,
+						animationSpeed: 1000,
+						animationType: 'single'
+				});
+
+				//goto and stop
+				$(document).on('click', '.image-changer.gotoAndStop', function(e){
+					e.preventDefault();
+					$('.photo-frame.gotoAndStop').html('').append('<img src="'+$(this).attr('href')+'">');
+					$('.photo-frame.gotoAndStop img').pananimate({
+						delay: 500,
+						animationSpeed: 1000,
+						animationType: 'gotoAndStop',
+						direction: 'backward'
+					});
+				});
+				$('.photo-frame.gotoAndStop img').pananimate({
+						delay: 500,
+						animationSpeed: 1000,
+						animationType: 'gotoAndStop',
+						direction: 'backward'
+				});
 			});
 		</script>
 </html>
